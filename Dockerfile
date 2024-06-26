@@ -9,11 +9,13 @@ RUN apt-get update && apt-get install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-COPY . ./
-
-RUN git clone --quiet --no-tags --single-branch --branch main --depth 1 https://github.com/ilhamr1783/CapstoneProjectTeam23 /workspace/source
+# Salin requirements.txt terlebih dahulu untuk caching layer Docker yang lebih baik
+COPY requirements.txt ./
 
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Salin sisa file aplikasi
+COPY . ./
 
 EXPOSE 8080
 
